@@ -1,0 +1,22 @@
+
+# source image
+FROM ubuntu:20.04
+
+WORKDIR /app_docker
+
+#COPY . /app_docker # copy all!
+COPY app /app_docker
+
+# Update and install necessary packages
+RUN apt-get update -y && \
+    apt-get install -y python3 python3-pip
+
+# Install numpy
+RUN pip3 install -r ./requirements.txt
+
+# Make "launch.sh" executable
+RUN chmod +x /app_docker/launch_prod.sh
+
+# Specify the command to run the script when the container starts
+CMD ["/app_docker/launch_prod.sh"]
+#CMD ["python3", "/app_docker/main.py"]
